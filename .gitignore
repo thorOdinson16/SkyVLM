@@ -4,6 +4,7 @@ meta4/
 meta5/
 meta6/
 meta7/
+dataset/
 
 # Raw SkyScript datasets
 SkyScript_train_unfiltered_5M.csv
@@ -13,3 +14,12 @@ SkyScript_test_30K_filtered_by_CLIP_laion_RS.csv
 metadata_index.csv
 
 *output.md
+
+__pycache__/
+
+*.zip
+*.txt
+
+# Model checkpoints, feature caches and run logs (large / regenerable)
+checkpoints/**/*.pt
+checkpoints/logs/
