@@ -1,0 +1,5 @@
+epoch,pooling,val_macro_f1,val_accuracy
+0,cls,0.1621,0.2422
+0,mean,0.1637,0.2410
+5,cls,0.2039,0.2550
+5,mean,0.2067,0.2637

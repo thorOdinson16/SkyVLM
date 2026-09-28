@@ -1,0 +1,7 @@
+timestamp,benchmark,encoder,pooling,probe,l2,converged,val_accuracy,val_macro_f1,test_accuracy,test_macro_f1
+2026-09-28T23:37:04,resisc45,timm:vit_small_patch16_224.augreg_in21k_ft_in1k,cls,logreg_lbfgs_gpu,0.001,True,0.8960,0.8947,0.8851,0.8845
+2026-09-28T23:38:15,resisc45,../checkpoints/mim/main/mim_epoch_100.pt,cls,logreg_lbfgs_gpu,0.001,True,0.7959,0.7924,0.7848,0.7842
+2026-09-28T23:39:46,resisc45,timm:vit_small_patch16_224.augreg_in21k_ft_in1k,mean,logreg_lbfgs_gpu,0.003,True,0.9006,0.8989,0.8790,0.8783
+2026-09-28T23:41:25,resisc45,../checkpoints/mim/main/mim_epoch_100.pt,mean,logreg_lbfgs_gpu,0.001,True,0.8002,0.7960,0.7859,0.7848
+2026-09-29T00:05:27,resisc45,random,cls,logreg_lbfgs_gpu,1e-05,True,0.4522,0.4415,0.4351,0.4246
+2026-09-29T00:34:14,resisc45,random,mean,logreg_lbfgs_gpu,1e-06,True,0.4460,0.4364,0.4341,0.4258
