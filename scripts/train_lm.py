@@ -93,13 +93,33 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # ============================================================
 
 def read_fineweb():
+    """
+    download_fineweb.py writes each document followed by a blank line;
+    paragraphs inside a document are single newlines. Yield whole
+    documents (joined lines), up to FINEWEB_MAX_DOCS.
+    """
+
+    n_docs = 0
+    lines = []
+
     with open(FINEWEB_PATH, "r", encoding="utf-8", errors="replace") as f:
-        for i, line in enumerate(f):
-            if i >= FINEWEB_MAX_DOCS:
-                break
-            text = line.strip()
-            if text:
-                yield text
+        for line in f:
+            line = line.rstrip("\n")
+
+            if line.strip():
+                lines.append(line)
+                continue
+
+            if lines:
+                yield "\n".join(lines)
+                lines = []
+                n_docs += 1
+
+                if n_docs >= FINEWEB_MAX_DOCS:
+                    return
+
+    if lines:
+        yield "\n".join(lines)
 
 
 def read_captions():
@@ -166,6 +186,7 @@ def load_or_build_tokens(tokenizer):
         "tokenizer_size": tok_stat.st_size,
         "tokenizer_mtime_ns": tok_stat.st_mtime_ns,
         "fineweb_docs": FINEWEB_MAX_DOCS,
+        "fineweb_reader": "blank-line-documents",
         "val_every": VAL_EVERY,
     }
 
