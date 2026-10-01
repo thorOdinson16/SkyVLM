@@ -190,16 +190,45 @@ def image_collate(batch):
     return torch.stack([b[0] for b in batch]), None
 
 
+def merge(args):
+    """Score the concatenated real-image samples of several shard runs."""
+
+    preds, refs = [], []
+
+    for tag in args.merge:
+        with open(OUT_DIR / f"{tag}_{args.split}_samples.jsonl", encoding="utf-8") as f:
+            for line in f:
+                row = json.loads(line)
+                preds.append(row["pred"])
+                refs.append(row["ref"])
+
+    results = {"shards": args.merge, "split": args.split, "n": len(refs), "real": score(preds, refs)}
+    tag = args.tag or "merged"
+    print(f"[{tag}/{args.split}/real] n={len(refs)} {results['real']}", flush=True)
+
+    with open(OUT_DIR / f"{tag}_{args.split}.json", "w") as f:
+        json.dump(results, f, indent=2)
+
+
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--ckpt", required=True)
+    p.add_argument("--ckpt")
     p.add_argument("--split", choices=["val", "test"], default="val")
     p.add_argument("--n", type=int, default=1000)
+    p.add_argument("--start", type=int, default=0, help="first image index (for sharded runs)")
+    p.add_argument("--merge", nargs="+", help="score the combined samples of these shard tags instead of generating")
     p.add_argument("--batch-size", type=int, default=64)
     p.add_argument("--max-new-tokens", type=int, default=128)
     p.add_argument("--controls", action="store_true")
     p.add_argument("--tag", help="name for the output files (default: checkpoint stem)")
     args = p.parse_args()
+
+    if args.merge:
+        merge(args)
+        return
+
+    if not args.ckpt:
+        p.error("--ckpt is required unless --merge is used")
 
     tokenizer = spm.SentencePieceProcessor(model_file=str(TOKENIZER_PATH))
 
@@ -208,7 +237,12 @@ def main():
     model.load_state_dict(state["model_state_dict"], strict=True)
     model.to(DEVICE).eval()
 
-    ds = CaptionDataset(f"{args.split}_{'5k' if args.split == 'val' else '30k'}.csv", tokenizer, limit=args.n)
+    ds = CaptionDataset(
+        f"{args.split}_{'5k' if args.split == 'val' else '30k'}.csv",
+        tokenizer,
+        limit=args.start + args.n,
+    )
+    ds.df = ds.df.iloc[args.start:].reset_index(drop=True)
     refs = ds.df["caption"].str.strip().tolist()
 
     loader = DataLoader(ds, batch_size=args.batch_size, num_workers=4, collate_fn=image_collate)

@@ -1,0 +1,19 @@
+{
+  "shards": [
+    "test_s00",
+    "test_s05",
+    "test_s10",
+    "test_s15",
+    "test_s20",
+    "test_s25"
+  ],
+  "split": "test",
+  "n": 30000,
+  "real": {
+    "BLEU-4": 0.4644,
+    "ROUGE-L": 0.6315,
+    "CIDEr-D": 1.7477,
+    "main_object_exact": 0.1955,
+    "surrounding_F1": 0.3722
+  }
+}

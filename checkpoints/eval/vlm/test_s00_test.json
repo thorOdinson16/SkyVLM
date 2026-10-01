@@ -1,0 +1,27 @@
+{
+  "ckpt": "checkpoints/vlm/stage2/vlm_final.pt",
+  "step": 20000,
+  "split": "test",
+  "n": 5000,
+  "real": {
+    "BLEU-4": 0.4671,
+    "ROUGE-L": 0.6319,
+    "CIDEr-D": 1.7965,
+    "main_object_exact": 0.208,
+    "surrounding_F1": 0.3706
+  },
+  "shuffled": {
+    "BLEU-4": 0.2058,
+    "ROUGE-L": 0.4217,
+    "CIDEr-D": 0.0901,
+    "main_object_exact": 0.0032,
+    "surrounding_F1": 0.1148
+  },
+  "blank": {
+    "BLEU-4": 0.1146,
+    "ROUGE-L": 0.3357,
+    "CIDEr-D": 0.0203,
+    "main_object_exact": 0.0012,
+    "surrounding_F1": 0.0015
+  }
+}
