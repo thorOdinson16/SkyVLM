@@ -149,7 +149,7 @@ class CausalSelfAttention(nn.Module):
             persistent=False
         )
 
-    def forward(self, x):
+    def forward(self, x, attn_mask=None):
 
         B, T, C = x.shape
 
@@ -186,14 +186,15 @@ class CausalSelfAttention(nn.Module):
         )
 
         # PyTorch's fused scaled-dot-product attention.
-        # is_causal=True creates the causal mask.
+        # is_causal=True creates the causal mask; an explicit boolean
+        # attn_mask (True = may attend) replaces it, e.g. for prefix-LM.
         y = F.scaled_dot_product_attention(
             q,
             k,
             v,
-            attn_mask=None,
+            attn_mask=attn_mask,
             dropout_p=0.0,
-            is_causal=True
+            is_causal=attn_mask is None
         )
 
         y = y.transpose(1, 2).contiguous()
@@ -233,10 +234,11 @@ class TransformerBlock(nn.Module):
             hidden_dim=ffn_hidden_dim
         )
 
-    def forward(self, x):
+    def forward(self, x, attn_mask=None):
 
         x = x + self.attention(
-            self.norm1(x)
+            self.norm1(x),
+            attn_mask
         )
 
         x = x + self.ffn(
@@ -317,10 +319,16 @@ class SkyVLMForCausalLM(nn.Module):
     def forward(
         self,
         input_ids,
-        labels=None
+        labels=None,
+        inputs_embeds=None,
+        attn_mask=None,
+        last_only=False
     ):
 
-        B, T = input_ids.shape
+        if inputs_embeds is None:
+            B, T = input_ids.shape
+        else:
+            B, T, _ = inputs_embeds.shape
 
         if T > self.max_seq_len:
             raise ValueError(
@@ -328,12 +336,18 @@ class SkyVLMForCausalLM(nn.Module):
                 f"max_seq_len={self.max_seq_len}"
             )
 
-        x = self.token_embedding(input_ids)
+        if inputs_embeds is None:
+            x = self.token_embedding(input_ids)
+        else:
+            x = inputs_embeds
 
         for layer in self.layers:
-            x = layer(x)
+            x = layer(x, attn_mask)
 
         x = self.norm(x)
+
+        if last_only:
+            x = x[:, -1:]
 
         logits = self.lm_head(x)
 
