@@ -205,8 +205,15 @@ class SkyVLM(nn.Module):
         return out
 
 
-def build_vlm(vit_ckpt=MIM_CHECKPOINT, lm_ckpt=LM_CHECKPOINT):
-    return SkyVLM(load_vit(vit_ckpt), load_lm(lm_ckpt))
+def build_vlm(vit_ckpt=MIM_CHECKPOINT, lm_ckpt=LM_CHECKPOINT, random_vit=False):
+    if random_vit:
+        # Untrained-encoder baseline; fixed seed, same as the random probe baseline
+        torch.manual_seed(0)
+        vit = SmallViT()
+    else:
+        vit = load_vit(vit_ckpt)
+
+    return SkyVLM(vit, load_lm(lm_ckpt))
 
 
 # ============================================================

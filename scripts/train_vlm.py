@@ -42,6 +42,7 @@ def parse_args():
     p.add_argument("--init", help="VLM checkpoint to start from (e.g. stage 1)")
     p.add_argument("--resume", action="store_true")
     p.add_argument("--lm-ckpt", help="override LM checkpoint")
+    p.add_argument("--random-vit", action="store_true", help="baseline: randomly initialized ViT")
     p.add_argument("--train-lm", action="store_true")
     p.add_argument("--train-vit", action="store_true")
     p.add_argument("--lr-projector", type=float, default=1e-3)
@@ -173,7 +174,10 @@ def main():
 
     tokenizer = spm.SentencePieceProcessor(model_file=str(TOKENIZER_PATH))
 
-    model = build_vlm(**({"lm_ckpt": args.lm_ckpt} if args.lm_ckpt else {}))
+    model = build_vlm(
+        random_vit=args.random_vit,
+        **({"lm_ckpt": args.lm_ckpt} if args.lm_ckpt else {}),
+    )
 
     if args.init:
         state = torch.load(args.init, map_location="cpu", weights_only=False)

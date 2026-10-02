@@ -1,0 +1,13 @@
+{
+  "ckpt": "checkpoints/vlm/random_stage2/vlm_final.pt",
+  "step": 20000,
+  "split": "test",
+  "n": 5000,
+  "real": {
+    "BLEU-4": 0.3229,
+    "ROUGE-L": 0.5299,
+    "CIDEr-D": 0.6943,
+    "main_object_exact": 0.059,
+    "surrounding_F1": 0.2639
+  }
+}
