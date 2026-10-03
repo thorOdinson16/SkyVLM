@@ -19,6 +19,11 @@ Official SkyScript test captions, greedy decoding, all 30k images:
 
 Shuffled or blank images drop CIDEr-D to 0.09 / 0.04, so the model reads the image.
 
+Sanity checks (MIM VLM, 30k test images): the main-object *category* (building, road, railway, ...) is right 61.5% of
+the time versus 21% for always guessing the most common one, and the exact main object 19.6% versus 1.6%. All outputs
+follow the caption template and 1.7% repeat a surrounding object. Typical errors are the right category with the wrong
+specifics ("office" for an apartment block).
+
 Image-text retrieval on 1,000 test pairs (a hit = same caption text). The VLM ranks captions by
 log p(caption | image); image→text uses a PMI correction, because raw likelihood favours short captions.
 
@@ -96,6 +101,17 @@ image ─► ViT (25.7M, MIM-pretrained, optionally CLIP-aligned)
 - **VLM** (`vlm.py`, `train_vlm.py`): the LM sees `[img_start] 196 image tokens [img_end] caption` with a
   prefix-LM mask (image block bidirectional, caption causal); loss on caption tokens only.
   Stage 1 trains the projector and boundary tokens (3k steps); Stage 2 unfreezes everything (20k steps).
+
+## Data and training cost
+
+Data: 200k SkyScript training images, official val 5k / test 30k; 1M FineWeb-Edu documents (~1.15B tokens), 16k vocabulary.
+
+| Stage | Compute | Peak VRAM |
+|---|---|---|
+| MIM encoder, 100 epochs | 13.6 h | n/a |
+| Language model, 30k steps | 11.8 h | 2.8 GB |
+| CLIP alignment, 15 epochs (11,715 steps) | ~5 h | 3.8 GB |
+| VLM Stage 1 (3k steps) / Stage 2 (20k steps) | ~20 min / ~2.2 h | 5.9 GB |
 
 ## Repository layout
 
