@@ -29,8 +29,43 @@ log p(caption | image); image→text uses a PMI correction, because raw likeliho
 | Our CLIP towers (ViT + LM) | 25.1 | 28.5 |
 | SkyCLIP ViT-B/32 (external) | 8.6 | 6.8 |
 
-Encoder quality, RESISC45 linear probe (6,300 test images): random 43.5%, MIM 78.6%,
-MIM + CLIP alignment 88.4%, supervised ImageNet ViT-S 88.5%.
+### Vision encoder
+
+RESISC45 linear probe (45 scene classes, 6,300 test images, frozen features, no RESISC45 data seen in training):
+
+| Encoder | Test accuracy | Macro-F1 |
+|---|---|---|
+| Random ViT (untrained) | 43.5% | 0.425 |
+| MIM (100 epochs, 200k unlabelled images) | 78.6% | 0.785 |
+| **MIM + CLIP alignment** (mean pooling) | **88.4%** | **0.885** |
+| MIM + CLIP alignment (CLS pooling) | 86.3% | 0.863 |
+| ImageNet ViT-S/16 (supervised, ~14M labelled images) | 88.5% | 0.885 |
+
+SkyScript 8-way category labels (geographic test split, Macro-F1; labels are noisy, so treat as secondary):
+
+| Encoder | Frozen linear probe | Fine-tuned |
+|---|---|---|
+| Random ViT | 0.199 | n/a |
+| MIM | 0.365 | 0.473 |
+| ImageNet ViT-S/16 | 0.399 | 0.542 |
+
+MIM mask-ratio ablation (5 epochs): 50% and 60% tied (Macro-F1 within 0.0015), 75% about one point lower; 60% used.
+
+### Language model
+
+| Metric | Value |
+|---|---|
+| Parameters / training tokens | 72.6M / 983M (30k steps) |
+| FineWeb-Edu val perplexity | **21.7** (344 at step 500, 36.9 at 5k) |
+| SkyScript caption val loss | 0.76 best (step 15k), 0.94 at the end |
+
+Caption loss rose after step 15k because captions were 10% of every batch (~18 passes) and the model memorized them;
+the final checkpoint is the better general LM, and `lm_step_015000.pt` is kept as the best-caption alternative.
+
+### CLIP alignment
+
+Val R@1 on 1,000 pairs went from 14.5% (epoch 0) to about 27% (epoch 4); it plateaued while train loss kept falling.
+Final: image→text 27.8 / text→image 26.9 (val), 25.1 / 28.5 (test).
 
 Caveats: one seed per condition. SkyCLIP is a general remote-sensing model and ours is a specialist
 trained on these templated captions, so that row is a reference, not a claim of a better model.
@@ -112,6 +147,3 @@ and restart a trainer that crashes or stalls.
 - SkyScript category labels are noisy; RESISC45 is the reliable measure of encoder quality.
 - The LM saw the training captions ~18 times, so train loss is artificially low and val loss is a poor guide to
   caption quality; checkpoints were chosen on caption metrics.
-- Training uses ~5.9 GB of the 8 GB card, so it cannot share the GPU with other heavy jobs.
-
-`PROGRESS.md` has the full log: ablations, per-region probe results, bugs found, and next steps.
