@@ -1,0 +1,19 @@
+{
+  "n": 1000,
+  "unique_captions": 948,
+  "split": "test",
+  "ckpt": "checkpoints/vlm/clipvit_stage2/vlm_final.pt",
+  "step": 20000,
+  "t2i_R@1": 0.347,
+  "t2i_R@5": 0.676,
+  "t2i_R@10": 0.789,
+  "i2t_R@1_sum": 0.15,
+  "i2t_R@5_sum": 0.298,
+  "i2t_R@10_sum": 0.37,
+  "i2t_R@1_mean": 0.156,
+  "i2t_R@5_mean": 0.309,
+  "i2t_R@10_mean": 0.394,
+  "i2t_R@1_pmi": 0.365,
+  "i2t_R@5_pmi": 0.663,
+  "i2t_R@10_pmi": 0.785
+}

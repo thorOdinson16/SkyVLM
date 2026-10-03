@@ -1,0 +1,19 @@
+{
+  "n": 1000,
+  "unique_captions": 948,
+  "split": "test",
+  "ckpt": "checkpoints/vlm/stage2/vlm_final.pt",
+  "step": 20000,
+  "t2i_R@1": 0.307,
+  "t2i_R@5": 0.607,
+  "t2i_R@10": 0.745,
+  "i2t_R@1_sum": 0.132,
+  "i2t_R@5_sum": 0.258,
+  "i2t_R@10_sum": 0.332,
+  "i2t_R@1_mean": 0.127,
+  "i2t_R@5_mean": 0.258,
+  "i2t_R@10_mean": 0.332,
+  "i2t_R@1_pmi": 0.302,
+  "i2t_R@5_pmi": 0.59,
+  "i2t_R@10_pmi": 0.74
+}

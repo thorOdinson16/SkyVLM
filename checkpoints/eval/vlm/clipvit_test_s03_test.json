@@ -1,0 +1,13 @@
+{
+  "ckpt": "checkpoints/vlm/clipvit_stage2/vlm_final.pt",
+  "step": 20000,
+  "split": "test",
+  "n": 5000,
+  "real": {
+    "BLEU-4": 0.4683,
+    "ROUGE-L": 0.6398,
+    "CIDEr-D": 1.8893,
+    "main_object_exact": 0.2072,
+    "surrounding_F1": 0.3847
+  }
+}

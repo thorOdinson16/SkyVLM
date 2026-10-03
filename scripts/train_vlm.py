@@ -42,6 +42,7 @@ def parse_args():
     p.add_argument("--init", help="VLM checkpoint to start from (e.g. stage 1)")
     p.add_argument("--resume", action="store_true")
     p.add_argument("--lm-ckpt", help="override LM checkpoint")
+    p.add_argument("--vit-ckpt", help="override ViT checkpoint (e.g. a CLIP-aligned ViT)")
     p.add_argument("--random-vit", action="store_true", help="baseline: randomly initialized ViT")
     p.add_argument("--train-lm", action="store_true")
     p.add_argument("--train-vit", action="store_true")
@@ -177,6 +178,7 @@ def main():
     model = build_vlm(
         random_vit=args.random_vit,
         **({"lm_ckpt": args.lm_ckpt} if args.lm_ckpt else {}),
+        **({"vit_ckpt": args.vit_ckpt} if args.vit_ckpt else {}),
     )
 
     if args.init:
@@ -207,7 +209,7 @@ def main():
             drop_last=shuffle,
             num_workers=args.workers,
             persistent_workers=args.workers > 0,
-            pin_memory=DEVICE.type == "cuda",
+            pin_memory=False,
             collate_fn=collate,
             generator=g,
         )

@@ -5,3 +5,5 @@ timestamp,benchmark,encoder,pooling,probe,l2,converged,val_accuracy,val_macro_f1
 2026-09-28T23:41:25,resisc45,../checkpoints/mim/main/mim_epoch_100.pt,mean,logreg_lbfgs_gpu,0.001,True,0.8002,0.7960,0.7859,0.7848
 2026-09-29T00:05:27,resisc45,random,cls,logreg_lbfgs_gpu,1e-05,True,0.4522,0.4415,0.4351,0.4246
 2026-09-29T00:34:14,resisc45,random,mean,logreg_lbfgs_gpu,1e-06,True,0.4460,0.4364,0.4341,0.4258
+2026-10-02T22:09:39,resisc45,C:\Users\AbhiDS\Documents\VLM\checkpoints\clip\main\vit_final.pt,cls,logreg_lbfgs_gpu,0.001,True,0.8730,0.8709,0.8625,0.8626
+2026-10-02T22:11:10,resisc45,C:\Users\AbhiDS\Documents\VLM\checkpoints\clip\main\vit_final.pt,mean,logreg_lbfgs_gpu,0.001,True,0.8995,0.8978,0.8844,0.8848

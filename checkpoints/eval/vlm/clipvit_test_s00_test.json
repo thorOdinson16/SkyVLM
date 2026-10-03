@@ -1,0 +1,13 @@
+{
+  "ckpt": "C:\\Users\\AbhiDS\\Documents\\VLM\\checkpoints\\vlm\\clipvit_stage2\\vlm_final.pt",
+  "step": 20000,
+  "split": "test",
+  "n": 5000,
+  "real": {
+    "BLEU-4": 0.4816,
+    "ROUGE-L": 0.6461,
+    "CIDEr-D": 1.9909,
+    "main_object_exact": 0.2254,
+    "surrounding_F1": 0.3879
+  }
+}

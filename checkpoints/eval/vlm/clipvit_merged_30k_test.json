@@ -1,0 +1,19 @@
+{
+  "shards": [
+    "clipvit_test_s00",
+    "clipvit_test_s01",
+    "clipvit_test_s02",
+    "clipvit_test_s03",
+    "clipvit_test_s04",
+    "clipvit_test_s05"
+  ],
+  "split": "test",
+  "n": 30000,
+  "real": {
+    "BLEU-4": 0.4751,
+    "ROUGE-L": 0.6429,
+    "CIDEr-D": 1.898,
+    "main_object_exact": 0.2128,
+    "surrounding_F1": 0.386
+  }
+}
