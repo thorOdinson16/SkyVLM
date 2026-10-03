@@ -172,3 +172,7 @@ Uses `checkpoints/vlm/clipvit_stage2/vlm_final.pt` (override with `SKYVLM_CKPT`)
 - SkyScript category labels are noisy; RESISC45 is the reliable measure of encoder quality.
 - The LM saw the training captions ~18 times, so train loss is artificially low and val loss is a poor guide to
   caption quality; checkpoints were chosen on caption metrics.
+
+## License
+
+Code and weights: Apache-2.0 (see `LICENSE`). Trained on SkyScript (MIT), which pairs Google Earth Engine imagery with OpenStreetMap-derived captions. OpenStreetMap data is © OpenStreetMap contributors (ODbL); imagery remains subject to its providers' terms.
