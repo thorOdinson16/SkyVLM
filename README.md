@@ -102,16 +102,9 @@ image ─► ViT (25.7M, MIM-pretrained, optionally CLIP-aligned)
   prefix-LM mask (image block bidirectional, caption causal); loss on caption tokens only.
   Stage 1 trains the projector and boundary tokens (3k steps); Stage 2 unfreezes everything (20k steps).
 
-## Data and training cost
+## Data
 
-Data: 200k SkyScript training images, official val 5k / test 30k; 1M FineWeb-Edu documents (~1.15B tokens), 16k vocabulary.
-
-| Stage | Compute | Peak VRAM |
-|---|---|---|
-| MIM encoder, 100 epochs | 13.6 h | n/a |
-| Language model, 30k steps | 11.8 h | 2.8 GB |
-| CLIP alignment, 15 epochs (11,715 steps) | ~5 h | 3.8 GB |
-| VLM Stage 1 (3k steps) / Stage 2 (20k steps) | ~20 min / ~2.2 h | 5.9 GB |
+200k SkyScript training images, official val 5k / test 30k; 1M FineWeb-Edu documents (~1.15B tokens), 16k vocabulary.
 
 ## Repository layout
 
