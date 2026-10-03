@@ -156,6 +156,15 @@ python scripts/eval_vlm_retrieval.py --ckpt <vlm.pt> --split test --n 1000      
 Training scripts resume from their last save. The `run_*` drivers keep the machine awake, watch free RAM,
 and restart a trainer that crashes or stalls.
 
+## Try it
+
+```
+streamlit run app.py        # upload a satellite image in the browser and get a caption
+```
+
+Uses `checkpoints/vlm/clipvit_stage2/vlm_final.pt` (override with `SKYVLM_CKPT`). The model is also on Hugging Face as
+`AbhiDS16/SkyVLM` with a standalone `inference.py`.
+
 ## Notes and limitations
 
 - References are OpenStreetMap-derived tags with several valid descriptions per image, so n-gram and exact-match
