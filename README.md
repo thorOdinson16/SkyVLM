@@ -79,6 +79,13 @@ image ─► ViT (25.7M, MIM-pretrained, optionally CLIP-aligned)
                                    └─► LM (72.6M decoder) ─► caption
 ```
 
+| Component | Parameters |
+|---|---|
+| Vision encoder (ViT) | 25.7M |
+| MLP projector | 1.05M |
+| Language model | 72.6M |
+| **SkyVLM total** | **99.4M** |
+
 - **Vision encoder** (`vit.py`, `mim.py`, `train_mim.py`): 8-layer ViT, 16×16 patches, 224 px; masked image
   modeling at a 60% mask ratio, 100 epochs on 200k SkyScript images.
 - **Language model** (`lm.py`, `train_lm.py`): 20-layer decoder with RoPE and RMSNorm, 983M tokens
