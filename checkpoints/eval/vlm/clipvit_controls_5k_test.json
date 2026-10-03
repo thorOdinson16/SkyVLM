@@ -1,0 +1,27 @@
+{
+  "ckpt": "checkpoints/vlm/clipvit_stage2/vlm_final.pt",
+  "step": 20000,
+  "split": "test",
+  "n": 5000,
+  "real": {
+    "BLEU-4": 0.4816,
+    "ROUGE-L": 0.6461,
+    "CIDEr-D": 1.9909,
+    "main_object_exact": 0.2254,
+    "surrounding_F1": 0.3879
+  },
+  "shuffled": {
+    "BLEU-4": 0.2028,
+    "ROUGE-L": 0.4224,
+    "CIDEr-D": 0.0896,
+    "main_object_exact": 0.0028,
+    "surrounding_F1": 0.1163
+  },
+  "blank": {
+    "BLEU-4": 0.1342,
+    "ROUGE-L": 0.3616,
+    "CIDEr-D": 0.035,
+    "main_object_exact": 0.0012,
+    "surrounding_F1": 0.0017
+  }
+}
